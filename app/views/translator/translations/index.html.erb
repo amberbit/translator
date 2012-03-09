@@ -2,13 +2,13 @@
   <div id="header">
     <h1>Translations</h1>
     <ul id="groups">
-      <li><%= link_to_unless_current "All", translations_group_path("all"), class: 'button' %></li>
-      <li><%= link_to_unless_current "Application", translations_group_path("application"), class: 'button' %></li>
-      <li><%= link_to_unless_current "Framework", translations_group_path("framework"), class: 'button' %></li>
-      <li><%= link_to_unless_current "Deleted", translations_group_path("deleted"), class: 'button' %></li>
+      <li><%= link_to_unless_current "All", translations_group_path("all"), :class => 'button' %></li>
+      <li><%= link_to_unless_current "Application", translations_group_path("application"), :class => 'button' %></li>
+      <li><%= link_to_unless_current "Framework", translations_group_path("framework"), :class => 'button' %></li>
+      <li><%= link_to_unless_current "Deleted", translations_group_path("deleted"), :class => 'button' %></li>
     </ul>
 
-    <%= form_tag translations_group_path(params[:group]), method: "get" do %>
+    <%= form_tag translations_group_path(params[:group]), :method => "get" do %>
       <%= label_tag :key, "Filter: " %>
       <%= text_field_tag :search, params[:search], :placeholder => "Search for text..." %>
       <%= select_tag :key, options_for_select(@sections.collect {|k| [k.humanize, k]}.unshift(["All sections", nil]), params[:key]) %>
@@ -36,12 +36,12 @@
       </h2>
 
       <% if params[:group] && params[:group] == 'deleted' %>
-        <%= link_to 'destroy', translation_path(id: key.gsub('.','-')),
-                      remote: true,
-                      method: :delete,
-                      confirm: 'Are you sure? This operation is irreversible.',
-                      class: 'button warning',
-                      title: 'Clear form database as translation no longer exists in default language file.'
+        <%= link_to 'destroy', translation_path(:id => key.gsub('.','-')),
+                      :remote => true,
+                      :method => :delete,
+                      :confirm => 'Are you sure? This operation is irreversible.',
+                      :class => 'button warning',
+                      :title => 'Clear form database as translation no longer exists in default language file.'
         %>
       <% end %>
       <% Translator.locales.each do |locale| %>
