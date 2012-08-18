@@ -15,6 +15,9 @@ Create initializer, for example config/initializers/translator.rb:
     Translator.current_store = Translator::MongoStore.new(conn)
     I18n.backend = Translator.setup_backend(I18n::Backend::Simple.new)
 
+In Rails > 3.1 you should mount the translator Engine in config/routes.rb:
+    mount Translator::Engine, :to => '/admin' # will provide a /admin/translations path
+
 === For Redis:
 
 Create Gemfile and run "bundle":

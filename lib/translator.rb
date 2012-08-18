@@ -1,4 +1,4 @@
-require 'translator/engine' if defined?(Rails) && Rails::VERSION::MAJOR == 3
+require 'translator/engine' if defined?(Rails) && Rails::VERSION::STRING.to_f >= 3.1
 
 module Translator
   class << self
