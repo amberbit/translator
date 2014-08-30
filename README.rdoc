@@ -2,28 +2,6 @@
 
 == Installation
 
-=== For MongoDB:
-
-Create Gemfile and run "bundle":
-
-    gem 'mongo'
-    gem 'bson_ext'
-    gem 'translator', :git => "git://github.com/amberbit/translator.git"
-
-Create initializer, for example config/initializers/translator.rb:
-    conn = Mongo::Connection.new.db("translator_test").collection("translations")
-    Translator.current_store = Translator::MongoStore.new(conn)
-    I18n.backend = Translator.setup_backend(I18n::Backend::Simple.new)
-
-In Rails > 3.1 you should mount the translator Engine in config/routes.rb:
-    mount Translator::Engine, :to => '/admin' # will provide a /admin/translations path
-
-You might also need to override default yaml parser by adding the line to Gemfile:
-    gem 'yajl-ruby', require: 'yajl/json_gem'
-
-There also appear to be problems with i18n v0.6.1 (truncated translations), so you might need to force v0.6.0:
-   gem 'i18n', '0.6.0'
-
 === For Redis:
 
 Create Gemfile and run "bundle":
@@ -35,6 +13,16 @@ Create initializer, for example config/initializers/translator.rb:
 
     Translator.current_store = Translator::RedisStore.new(Redis.new)
     I18n.backend = Translator.setup_backend(I18n::Backend::Simple.new)
+
+
+In Rails > 3.1 you should mount the translator Engine in config/routes.rb:
+    mount Translator::Engine, :to => '/admin' # will provide a /admin/translations path
+
+You might also need to override default yaml parser by adding the line to Gemfile:
+    gem 'yajl-ruby', require: 'yajl/json_gem'
+
+There also appear to be problems with i18n v0.6.1 (truncated translations), so you might need to force v0.6.0:
+   gem 'i18n', '0.6.0'
 
 == Usage
 
@@ -104,8 +92,6 @@ As a user, I want to have all Rails translations hidden in 'Framework Translatio
 As a developer, I want to override list of 'Framework Translations' with a custom specified in initializer.
 
 As a user, I want to revert to default translation, loaded from YAML file, by clicking on 'Default' link.
-
-Ad a user, I want to choose between Redis and MongoDB for translations storage.
 
 == Future features:
 
