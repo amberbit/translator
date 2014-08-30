@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Translator do
   before :all do
-    conn = Mongo::Connection.new.db("translator_test").collection("translations")
-    Translator.current_store = Translator::MongoStore.new(conn)
+    @store = Translator::RedisStore.new(Redis.new)
+    Translator.current_store = @store
     I18n.backend = Translator.setup_backend(I18n::Backend::Simple.new)
   end
 
