@@ -75,6 +75,20 @@ module Translator
       redirect_to :back unless request.xhr?
     end
 
+    def locale
+      I18n.locale = params[:loc] || I18n.default_locale
+
+      keys = Translator.keys_for_strings
+      translations = Hash[keys.map { |key|
+        [
+          key,
+          begin I18n.t key; rescue; end
+        ]
+      }]
+
+      render json: translations
+    end
+
     private
 
     def auth

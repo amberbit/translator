@@ -23,6 +23,7 @@ RSpec.configure do |config|
   # methods or matchers
   require 'rspec/expectations'
   config.include RSpec::Matchers
+  config.include Rails.application.routes.url_helpers
 
   # == Mock Framework
   config.mock_with :rspec
