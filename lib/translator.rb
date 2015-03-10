@@ -4,7 +4,7 @@ module Translator
   class << self
     attr_accessor :auth_handler, :current_store, :framework_keys
     attr_reader :simple_backend
-    attr_writer :layout_name
+    attr_writer :layout_name, :blacklisted_keys
   end
 
   @framework_keys = ["date.formats.default", "date.formats.short", "date.formats.long", 
@@ -50,6 +50,10 @@ module Translator
     @simple_backend.available_locales
   end
 
+  def self.blacklisted_keys
+    @blacklisted_keys || []
+  end
+
   def self.keys_for_strings(options = {})
     @simple_backend.available_locales
 
@@ -75,6 +79,10 @@ module Translator
       keys -= @framework_keys
     end
 
+    self.blacklisted_keys.each do |blacklisted_key|
+      keys = keys.reject {|k| k =~ /\A#{blacklisted_key.gsub('.', '\.')}/ }
+    end
+
     keys || []
   end
 
@@ -83,7 +91,7 @@ module Translator
   end
 
   private
-  
+
   def self.get_translations
     @simple_backend.instance_variable_get("@translations")[:en]
   end

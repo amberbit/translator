@@ -25,4 +25,21 @@ describe Translator do
     Translator.keys_for_strings(:group => :all).should include("hello.world")
     Translator.keys_for_strings(:group => :all).should include("helpers.submit.update")
   end
+
+  describe 'blacklist' do
+    after :each do
+      Translator::blacklisted_keys = []
+    end
+
+    it "should be possible to blacklist keys" do
+      Translator.keys_for_strings(:group => :all).should include("hello.world")
+      Translator.blacklisted_keys = ['hello.']
+      Translator.keys_for_strings(:group => :all).should_not include("hello.world")
+    end
+
+    it "should only match keys from the beginning" do
+      Translator.blacklisted_keys = ['world']
+      Translator.keys_for_strings(:group => :all).should include("hello.world")
+    end
+  end
 end
