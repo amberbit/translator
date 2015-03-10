@@ -26,7 +26,6 @@ module Translator
         }
       end
 
-
       @keys = paginate(@keys)
 
       render :layout => Translator.layout_name
